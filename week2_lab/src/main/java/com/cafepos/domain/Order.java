@@ -8,9 +8,14 @@ private final long id;
 private final List<LineItem> items = new ArrayList<>();
 public Order(long id) { this.id = id; }
 
-// NOTE : Add error handling for all functions 
 public void addItem(LineItem li) { 
+    if (li.quantity() <= 0) {
+        throw new IllegalArgumentException("Quantity must be greater than 0");
+    }
+    int numItems = li.quantity();
+    for (int i = 0; i < numItems; i++) {
     items.add(li);
+    }
  }
 
 public Money taxAtPercent(int percent) { 

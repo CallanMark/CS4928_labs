@@ -45,13 +45,12 @@ return new Money(newAmount);
 }
 
 public Money multiply(int factor) {
-//BigDecimal quantityAsDecimal = BigDecimal.valueOf(quantity)
 BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(factor));
 return new Money(newAmount);
 }
 
-public Money multiply(BigDecimal factor) {
-BigDecimal newAmount = this.amount.multiply(factor);
+public Money multiply(BigDecimal percent) {
+BigDecimal newAmount = this.amount.multiply(percent);
 return new Money(newAmount);
 }
 

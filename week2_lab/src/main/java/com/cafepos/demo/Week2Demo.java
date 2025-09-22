@@ -22,11 +22,11 @@ order.addItem(new LineItem(catalog.findById("P-CCK").orElseThrow(), 1));
 
 int taxPct = 10; 
 // Print order details
-System.out.println("Order #" + order.id()); // NOTE : Correct 
-System.out.println("Items: " + order.items().size()); // NOTE : Correct
-System.out.println("Subtotal: " + order.subtotal()); // NOTE : Correct
+System.out.println("Order #" + order.id());  
+System.out.println("Items: " + order.items().size()); 
+System.out.println("Subtotal: " + order.subtotal()); 
 System.out.println("Tax (" + taxPct + "%): " +
-order.taxAtPercent(taxPct)); // NOTE : Incorrect
+order.taxAtPercent(taxPct)); 
 System.out.println("Total: " +
 order.totalWithTax(taxPct)); 
 }
