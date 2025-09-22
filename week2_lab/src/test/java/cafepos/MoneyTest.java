@@ -1,4 +1,10 @@
-@Test void order_totals() {
+package cafepos;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+// NOTE: Ensure to change this class to correct money tests before submisson 
+public class MoneyTest { 
+@Test void money_test() {
 
  SimpleProduct p1 = new SimpleProduct("A", "A", Money.of(2.50));
  SimpleProduct p2 = new SimpleProduct("B", "B", Money.of(3.50));
@@ -9,4 +15,5 @@
  assertEquals(Money.of(0.85), o.taxAtPercent(10));
  assertEquals(Money.of(9.35), o.totalWithTax(10));
 
+}
 }

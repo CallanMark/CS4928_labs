@@ -1,3 +1,8 @@
+package cafepos;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+public class OrderTotals { 
 @Test void order_totals() {
 
  var p1 = new SimpleProduct("A", "A", Money.of(2.50));
@@ -8,5 +13,6 @@
  assertEquals(Money.of(8.50), o.subtotal());
  assertEquals(Money.of(0.85), o.taxAtPercent(10));
  assertEquals(Money.of(9.35), o.totalWithTax(10));
- 
+
+}
 }
