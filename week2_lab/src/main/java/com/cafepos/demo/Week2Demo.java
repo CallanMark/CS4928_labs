@@ -1,3 +1,4 @@
+package com.cafepos.demo;
 import com.cafepos.catalog.Catalog;
 import com.cafepos.catalog.InMemoryCatalog;
 import com.cafepos.catalog.SimpleProduct;

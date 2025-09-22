@@ -1,3 +1,4 @@
+package com.cafepos.common;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -47,7 +48,14 @@ public Money multiply(int quantity) {
 BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(quantity));
 return new Money(newAmount);
 }
-
+/*
+public Money multiplyByPercent(int percent) {
+if (percent < 0) throw new IllegalArgumentException("percent cannot be negative");
+BigDecimal factor = BigDecimal.valueOf(percent).movePointLeft(2);
+BigDecimal newAmount = this.amount.multiply(factor);
+return new Money(newAmount);
+}
+*/
 public BigDecimal toBigDecimal() {
 return amount;
 }

@@ -1,3 +1,5 @@
+package com.cafepos.domain;
+import com.cafepos.common.Money;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,9 +20,12 @@ public Money taxAtPercent(int percent)
     if (percent < 0 || percent > 100) {
         throw new IllegalArgumentException("Tax percentage must be between 0 and 100");
     }
-return subtotal().multiply(percent);
+return subtotal().multiply(percent); //NOTE : may cause error 
  }
 public Money totalWithTax(int percent) { 
 return subtotal().add(taxAtPercent(percent));
  }
+
+public long id() { return id; }
+public List<LineItem> items() { return items; }
 }
