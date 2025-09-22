@@ -10,7 +10,6 @@ import com.cafepos.domain.OrderIds;
 import java.util.Optional;
 
 public final class Week2Demo {
-
 public static void main(String[] args) {
 
 Catalog catalog = new InMemoryCatalog(); // Create catalog object 
@@ -30,5 +29,13 @@ System.out.println("Tax (" + taxPct + "%): " +
 order.taxAtPercent(taxPct));
 System.out.println("Total: " +
 order.totalWithTax(taxPct));
+/*
+Correct output should be :
+Order #1
+Items: 2
+Subtotal: $7.00
+Tax (10%): $0.70
+Total: $7.70
+*/
 }
 }

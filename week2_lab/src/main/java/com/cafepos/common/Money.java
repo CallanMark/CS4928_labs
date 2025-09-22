@@ -32,7 +32,7 @@ throw new IllegalArgumentException("amount cannot be negative");
 this.amount = scaled;
 }
 
-public Money add(Money other) {
+public Money add(Money other) { // NOTE : HERE is casuing error 
 Objects.requireNonNull(other, "other");
 BigDecimal newAmount = this.amount.add(other.amount);
 return new Money(newAmount);
@@ -44,18 +44,12 @@ BigDecimal newAmount = this.amount.subtract(other.amount);
 return new Money(newAmount);
 }
 
-public Money multiply(int quantity) {
-BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(quantity));
+public Money multiply(int factor) {
+//BigDecimal quantityAsDecimal = BigDecimal.valueOf(quantity)
+BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(factor));
 return new Money(newAmount);
 }
-/*
-public Money multiplyByPercent(int percent) {
-if (percent < 0) throw new IllegalArgumentException("percent cannot be negative");
-BigDecimal factor = BigDecimal.valueOf(percent).movePointLeft(2);
-BigDecimal newAmount = this.amount.multiply(factor);
-return new Money(newAmount);
-}
-*/
+
 public BigDecimal toBigDecimal() {
 return amount;
 }
