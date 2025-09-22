@@ -2,6 +2,10 @@ package cafepos;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.cafepos.catalog.SimpleProduct;
+import com.cafepos.common.Money;
+import com.cafepos.domain.Order;
+import com.cafepos.domain.LineItem;
 // NOTE: Ensure to change this class to correct money tests before submisson 
 public class MoneyTest { 
 @Test void money_test() {

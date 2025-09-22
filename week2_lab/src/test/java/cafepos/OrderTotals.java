@@ -2,6 +2,14 @@ package cafepos;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+// import the production classes
+import com.cafepos.catalog.SimpleProduct;
+import com.cafepos.common.Money;
+import com.cafepos.domain.Order;
+import com.cafepos.domain.LineItem;
+
+
 public class OrderTotals { 
 @Test void order_totals() {
 
