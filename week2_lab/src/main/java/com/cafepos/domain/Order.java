@@ -14,19 +14,23 @@ public void addItem(LineItem li) {
  }
 
 public Money taxAtPercent(int percent) { 
+    BigDecimal percentDecimal = BigDecimal.valueOf(percent).movePointLeft(2);
     if (percent < 0 || percent > 100) {
         throw new IllegalArgumentException("Tax percentage must be between 0 and 100");
     }
     Money subtotalValue = subtotal();
-    System.out.println("Passed in subtotal of :" + subtotalValue);
-    Money tax = subtotalValue.multiply(percent);
-    System.out.println("Calculated tax of :" + tax);
+    Money tax = subtotalValue.multiply(percentDecimal);
     return tax;
  }
 
 public Money totalWithTax(int percent) { 
 return subtotal().add(taxAtPercent(percent));
  }
+
+public Money subtotal() {
+return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
+}
+
 
 public long id() { return id; }
 public List<LineItem> items() { return items; }

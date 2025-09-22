@@ -17,25 +17,17 @@ catalog.add(new SimpleProduct("P-ESP", "Espresso",Money.of(2.50))); // Add espre
 catalog.add(new SimpleProduct("P-CCK", "Chocolate Cookie", Money.of(3.50))); // Add chocolate cookie ($3.50)
 
 Order order = new Order(OrderIds.next()); // Create order object 
-order.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 2)); // Add products to order 
+order.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 2)); // Add 2 espresso 
 order.addItem(new LineItem(catalog.findById("P-CCK").orElseThrow(), 1));
 
 int taxPct = 10; 
 // Print order details
-System.out.println("Order #" + order.id());
-System.out.println("Items: " + order.items().size());
-System.out.println("Subtotal: " + order.subtotal());
+System.out.println("Order #" + order.id()); // NOTE : Correct 
+System.out.println("Items: " + order.items().size()); // NOTE : Correct
+System.out.println("Subtotal: " + order.subtotal()); // NOTE : Correct
 System.out.println("Tax (" + taxPct + "%): " +
-order.taxAtPercent(taxPct));
+order.taxAtPercent(taxPct)); // NOTE : Incorrect
 System.out.println("Total: " +
-order.totalWithTax(taxPct));
-/*
-Correct output should be :
-Order #1
-Items: 2
-Subtotal: $7.00
-Tax (10%): $0.70
-Total: $7.70
-*/
+order.totalWithTax(taxPct)); 
 }
 }

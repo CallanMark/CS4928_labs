@@ -2,22 +2,23 @@ package cafepos;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import com.cafepos.catalog.SimpleProduct;
+
 import com.cafepos.common.Money;
-import com.cafepos.domain.Order;
-import com.cafepos.domain.LineItem;
-// NOTE: Ensure to change this class to correct money tests before submisson 
-public class MoneyTest { 
-@Test void money_test() {
 
- SimpleProduct p1 = new SimpleProduct("A", "A", Money.of(2.50));
- SimpleProduct p2 = new SimpleProduct("B", "B", Money.of(3.50));
- Order o = new Order(1);
- o.addItem(new LineItem(p1, 2));
- o.addItem(new LineItem(p2, 1));
- assertEquals(Money.of(8.50), o.subtotal());
- assertEquals(Money.of(0.85), o.taxAtPercent(10));
- assertEquals(Money.of(9.35), o.totalWithTax(10));
+public class MoneyTest {
 
-}
+    @Test
+    void addition_should_sum_values() {
+        assertEquals(Money.of(5.00), Money.of(2.00).add(Money.of(3.00)));
+    }
+
+    @Test
+    void multiplication_should_scale_value() {
+        assertEquals(Money.of(6.00), Money.of(2.00).multiply(3));
+    }
+
+    @Test
+    void zero_should_be_immutable_identity() {
+        assertEquals(Money.of(2.00), Money.zero().add(Money.of(2.00)));
+    }
 }

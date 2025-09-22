@@ -50,6 +50,16 @@ BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(factor));
 return new Money(newAmount);
 }
 
+public Money multiply(BigDecimal factor) {
+BigDecimal newAmount = this.amount.multiply(factor);
+return new Money(newAmount);
+}
+
+public Money multiply(double factor) {
+BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(factor));
+return new Money(newAmount);
+}
+
 public BigDecimal toBigDecimal() {
 return amount;
 }
