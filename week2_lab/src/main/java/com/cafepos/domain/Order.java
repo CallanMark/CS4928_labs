@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public final class Order {
 private final long id;
 private final List<LineItem> items = new ArrayList<>();
@@ -18,6 +21,6 @@ public Money taxAtPercent(int percent)
 return subtotal().multiply(percent);
  }
 public Money totalWithTax(int percent) { 
-
 return subtotal().add(taxAtPercent(percent));
  }
+}
