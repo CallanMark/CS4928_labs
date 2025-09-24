@@ -32,7 +32,7 @@ throw new IllegalArgumentException("amount cannot be negative");
 this.amount = scaled;
 }
 
-public Money add(Money other) { // NOTE : HERE is casuing error 
+public Money add(Money other) { 
 Objects.requireNonNull(other, "other");
 BigDecimal newAmount = this.amount.add(other.amount);
 return new Money(newAmount);
