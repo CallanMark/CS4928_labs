@@ -3,6 +3,7 @@ import com.cafepos.common.Money;
 import java.util.List;
 import java.util.ArrayList;
 import java.math.BigDecimal;
+import com.cafepos.payment.PaymentStrategy;
 public final class Order {
 private final long id;
 private final List<LineItem> items = new ArrayList<>();
@@ -33,4 +34,12 @@ return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
 
 public long id() { return id; }
 public List<LineItem> items() { return items; }
+
+
+    public void pay(PaymentStrategy strategy) {
+        if (strategy == null) throw new
+                IllegalArgumentException("strategy required");
+        strategy.pay(this);
+    }
+
 }

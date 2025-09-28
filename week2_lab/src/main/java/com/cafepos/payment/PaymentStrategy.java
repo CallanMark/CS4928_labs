@@ -1,5 +1,6 @@
-package com.cafepos.payment
+package com.cafepos.payment;
+import com.cafepos.domain.Order;
 
-public interface PaymentStrategy(Order order){
-void pay(Order order);
+public interface PaymentStrategy {
+    void pay(Order order);
 }
