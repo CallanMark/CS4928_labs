@@ -9,10 +9,11 @@ import com.cafepos.domain.OrderIds;
 import com.cafepos.payment.CardPayment;
 import com.cafepos.payment.CashPayment;
 
-import java.util.Optional;
 
 public final class Week3Demo {
     public static void main(String[] args) {
+        
+        System.out.println("Week 3 Lab demo" );
         Catalog catalog = new InMemoryCatalog();
         catalog.add(new SimpleProduct("P-ESP", "Espresso",
                 Money.of(2.50)));
