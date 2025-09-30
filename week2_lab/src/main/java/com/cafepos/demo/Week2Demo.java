@@ -7,8 +7,6 @@ import com.cafepos.domain.Order;
 import com.cafepos.domain.LineItem;
 import com.cafepos.domain.OrderIds;
 
-import java.util.Optional;
-
 public final class Week2Demo {
 public static void main(String[] args) {
 

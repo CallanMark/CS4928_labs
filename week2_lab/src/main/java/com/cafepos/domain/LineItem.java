@@ -1,7 +1,7 @@
 package com.cafepos.domain;
 import com.cafepos.catalog.Product;
 import com.cafepos.common.Money;
-import java.util.Objects;
+
 
 public final class LineItem {
     private final Product product;
