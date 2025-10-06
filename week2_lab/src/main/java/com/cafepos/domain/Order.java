@@ -53,7 +53,7 @@ public void pay(PaymentStrategy strategy) {
 if (strategy == null) throw new
     IllegalArgumentException("strategy required");
     strategy.pay(this);
-    notifyObservers("paid"); // TODO : Need to verify state has changed before notifying observers
+    notifyObservers("paid"); 
     }
 
     // 1) Maintain subscriptions
@@ -91,4 +91,13 @@ public void register(OrderObserver o) {
     public void markReady() {
         notifyObservers("ready");
     }
+   // Added this method to get the item name from the order
+    public String getItemName(int itemId) {
+        return items.get(itemId).product().name();
+    }
+
+    public Integer getItemQuantity(int itemId) {
+        return items.get(itemId).quantity();
+    }
+
 }
