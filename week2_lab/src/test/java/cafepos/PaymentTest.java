@@ -7,8 +7,7 @@ import com.cafepos.catalog.SimpleProduct;
 import com.cafepos.domain.LineItem;
 import com.cafepos.domain.Order;
 import com.cafepos.common.Money;
-import com.cafepos.payment.CardPayment;
-import com.cafepos.payment.CashPayment;
+
 public class PaymentTest{
 
 @Test void payment_strategy_called() {
