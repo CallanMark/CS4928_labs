@@ -5,14 +5,22 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import com.cafepos.payment.PaymentStrategy;
 import com.cafepos.observer.OrderObserver;
+import java.util.Arrays;
 public final class Order {
 private final long id;
 private final List<LineItem> items = new ArrayList<>();
-public Order(long id) { this.id = id; }
+
+public Order(long id) { 
+    this.id = id; 
+}
 
 public void addItem(LineItem li) { 
     items.add(li);
+    if (items.contains(li)) { // Check that state has changed before notifying observers
+        notifyObservers("itemAdded");
+    }
  }
+
 
 public Money taxAtPercent(int percent) { 
     BigDecimal percentDecimal = BigDecimal.valueOf(percent).movePointLeft(2);
@@ -33,44 +41,54 @@ return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
 }
 
 
-public long id() { return id; }
-public List<LineItem> items() { return items; }
+public long id() {
+     return id;
+     }
 
+public List<LineItem> items() {
+     return items;
+     }
 
-    public void pay(PaymentStrategy strategy) {
-        if (strategy == null) throw new
-                IllegalArgumentException("strategy required");
-        strategy.pay(this);
+public void pay(PaymentStrategy strategy) {
+if (strategy == null) throw new
+    IllegalArgumentException("strategy required");
+    strategy.pay(this);
+    notifyObservers("paid"); // TODO : Need to verify state has changed before notifying observers
     }
 
     // 1) Maintain subscriptions
-    private final List<OrderObserver> observers = new
-            ArrayList<>();
-    public void register(OrderObserver o) {
-// TODO: add null check and add the observer
+private final List<OrderObserver> observers = new ArrayList<>();
+// Array containing event types for comparison
+String[] eventTypes = new String[] { "itemAdded", "paid", "ready" };
+
+
+public void register(OrderObserver o) {
+    if (o == null) { throw new 
+    IllegalArgumentException("[register] o must not be null ");
+    }
+    observers.add(o);
     }
     public void unregister(OrderObserver o) {
-// TODO: remove the observer if present
+    if (o == null) { throw new 
+    IllegalArgumentException("[unregister] o must not be null ");
     }
+    if (!observers.contains(o)) { throw new 
+    IllegalArgumentException("[unregister] Unable to remove o : " + o + "from oberservers as it does not exist ");
+    }
+    observers.remove(o);
+    }
+    
     // 2) Publish events
     private void notifyObservers(String eventType) {
-// TODO: iterate observers and call updated(this, eventType);
+        if (!Arrays.asList(eventTypes).contains(eventType)) { throw new 
+        IllegalArgumentException("[notifyObservers] Invalid event type: " + eventType + "must be itemAdded, paid, or ready");
+        }
+        for (OrderObserver o : observers) {
+            o.updated(this, eventType);
+        }
     }
 
-    // 3) Hook notifications into existing behaviors
-    //@Override
-   // public void addItem(LineItem li) {
-// TODO: call super/add to items and then
-       // notifyObservers("itemAdded");
-    //}
-
-
-    //@Override
-    //public void pay(PaymentStrategy strategy) {
-// TODO: delegate to strategy as before, then
-        //notifyObservers("paid")
-    //}
     public void markReady() {
-// TODO: just publish notifyObservers("ready")
+        notifyObservers("ready");
     }
 }
