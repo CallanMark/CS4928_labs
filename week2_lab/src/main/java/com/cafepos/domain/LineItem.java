@@ -1,6 +1,8 @@
 package com.cafepos.domain;
 import com.cafepos.catalog.Product;
 import com.cafepos.common.Money;
+import com.cafepos.common.Priced;
+
 
 
 public final class LineItem {
@@ -23,6 +25,9 @@ public final class LineItem {
     }
 
     public Money lineTotal() { 
-        return product.basePrice().multiply(quantity);
+        Money unit = (product instanceof Priced p) ? p.price() :
+        product.basePrice();
+        return unit.multiply(quantity);
     }
+    
 }

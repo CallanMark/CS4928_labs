@@ -10,12 +10,15 @@ import com.cafepos.payment.CashPayment;
 import com.cafepos.observer.DeliveryDesk;
 import com.cafepos.observer.KitchenDisplay;
 import com.cafepos.observer.CustomerNotifier;
+import com.cafepos.factory.ProductFactory;
+import com.cafepos.catalog.Product;
 
 public final class EntryPoint { 
     public static void main(String[] args) {
-        // Init Objects
-        Catalog catalog = new InMemoryCatalog(); // Create catalog object 
-        Order order = new Order(OrderIds.next()); // Create order object 
+        // Create Objects 
+        Catalog catalog = new InMemoryCatalog(); 
+        Order order = new Order(OrderIds.next()); 
+        ProductFactory factory = new ProductFactory();
 
         // ----------------------- Week 2 Demo 
         /* 
@@ -60,6 +63,8 @@ public final class EntryPoint {
         */ 
 
         // ----------------------- Week 4 Demo 
+
+        /* 
         System.out.println("Week 4 demo") ; 
         catalog.add(new SimpleProduct("P-ESP", "Espresso",
                 Money.of(2.50)));
@@ -70,5 +75,23 @@ public final class EntryPoint {
         order.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 1));
         order.pay(new CashPayment());
         order.markReady();
+        */
+        
+        // ----------------------- Week 5 Demo
+
+       
+        Product p1 = factory.create("ESP+SHOT+OAT"); // Espresso+ Extra Shot + Oat
+        Product p2 = factory.create("LAT+L"); // Large Latte
+        order.addItem(new LineItem(p1, 1));
+        order.addItem(new LineItem(p2, 2));
+        System.out.println("Order #" + order.id());
+        for (LineItem li : order.items()) {
+        System.out.println(" - " + li.product().name() + " x"
+        + li.quantity() + " = " + li.lineTotal());
+        }
+        System.out.println("Subtotal: " + order.subtotal());
+        System.out.println("Tax (10%): " +
+        order.taxAtPercent(10));
+        System.out.println("Total: " + order.totalWithTax(10));
     }
 }
