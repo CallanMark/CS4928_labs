@@ -18,35 +18,17 @@ import java.util.Scanner;
 
 public final class EntryPoint { 
     public static void main(String[] args) {
+        // Visit this link to see provided demo code from previous weeks : https://github.com/spider-mmp/cafepos-demo/tree/main/src/main/java/com/cafepos/demo
         // Create Objects 
         Catalog catalog = new InMemoryCatalog(); 
         Order order = new Order(OrderIds.next()); 
+        order.register(new KitchenDisplay());
+        order.register(new DeliveryDesk());
+        order.register(new CustomerNotifier());
         Scanner scanner = new Scanner(System.in);
 
-       // Currently we add the large surcharrge (2.50 + 0.70 = 3.20) , but we need to add the large surcharrge to the extra shot and oat milk , 
-
-       /* Desired final output :  
-       Order #2001
-       - Espresso + Extra Shot + Oat Milk x1 = 3.80
-       - Latte (Large) x2 = 7.80
-       Subtotal: 11.60
-       Tax (10%): 1.16
-       Total: 12.76
-       -- Base prices : 
-       case "ESP" -> new SimpleProduct("P-ESP", "Espresso", Money.of(2.50));
-       case "LAT" -> new SimpleProduct("P-LAT", "Latte", Money.of(3.20));
-       case "CAP" -> new SimpleProduct("P-CAP", "Cappuccino", Money.of(3.00));
-       Current output :
-       - Latte (Large) x2 = 6.40
-       - P-LAT x2 = 7.80
-       - Espresso + Extra Shot + Oat Milk x1 = 2.50
-       - P-ESP x1 = 3.80
-       Current problems : 
-       P-LAT and P-ESP have the correct total , but the names are incorrect  
-       */
         boolean mainMenuActive = true;
         while (mainMenuActive){
-      
          System.out.println("[Main Menu] Welcome to the CS4928 Cafe , Please select which operation you wish to perform");
          System.out.println("1. Create/Add a new product to the catalog");
          System.out.println("2. Add a new item to the order");
@@ -120,22 +102,14 @@ public final class EntryPoint {
                 throw new IllegalArgumentException("Invalid choice , please enter y or n");
             }
     
-            catalog.add(new SimpleProduct(productId, productId, Money.of(product.price().toBigDecimal())));
-            
-            order.addItem(new LineItem(product, userQuantity));
-            // New intiations , only iniating this when it is needed , Don't know if this is the most efficent way 
-            order.register(new KitchenDisplay());
-            order.register(new DeliveryDesk());
-            order.register(new CustomerNotifier());
-            order.addItem(new LineItem(catalog.findById(productId).orElseThrow(), userQuantity));
-            System.out.println("Item added successfully , returning to main menu");
+            order.addItem(new LineItem(product, userQuantity));            System.out.println("Item added successfully , returning to main menu");
             break;
             case 3:
                  String itemId = scanner.nextLine();
                 if (!itemId.startsWith("P-") || itemId.length() != 5){
                     System.out.println("Invalid item id , please enter a valid item id e.g P-ESP");            
                 }
-                else if (!catalog.findById(itemId).isPresent() ){ // || TODO: Implement some sort of check for  !order.items().contains(itemId)
+                else if (!catalog.findById(itemId).isPresent() ){ 
                     System.out.println("Item not found in order , please enter a valid item id");
                     System.out.println("Current Order items: " + order.items());
                 }
@@ -173,6 +147,10 @@ public final class EntryPoint {
                 double cashAmount = scanner.nextDouble();
                 Money cashAmountToPay = Money.of(cashAmount);
                 Money totalAmountToPay = order.totalWithTax(10); // TODO: Check this correct ? , Add a test case for this 
+                if (cashAmountToPay.compareTo(totalAmountToPay) < 0){
+                    System.out.println("Insufficient cash tendered , please enter a valid amount");
+                    break;
+                }
                 Money changedTendered = cashAmountToPay.subtract(totalAmountToPay);
                 order.pay(new CashPayment());
                 System.out.println("Change tendered: " + changedTendered);
