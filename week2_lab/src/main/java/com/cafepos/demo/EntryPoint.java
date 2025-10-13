@@ -120,20 +120,22 @@ public final class EntryPoint {
         Product decorated2 = new SizeLarge(new OatMilk(new ExtraShot(espresso2)));
         System.out.println("Espresso + Extra Shot + Oat Milk (Large)"+  decorated2.name());
         System.out.println(decorated2.price());
+        */
         
        // Currently we add the large surcharrge (2.50 + 0.70 = 3.20) , but we need to add the large surcharrge to the extra shot and oat milk , 
 
-        
-        /*
-        Desired output : 
-        Order #2001
-        - Espresso + Extra Shot + Oat Milk x1 = 3.80
-        - Latte (Large) x2 = 7.80
-        Subtotal: 11.60
-        Tax (10%): 1.16
-        Total: 12.76
-         */
-
+       /* Desired final output :  
+       Order #2001
+       - Espresso + Extra Shot + Oat Milk x1 = 3.80
+       - Latte (Large) x2 = 7.80
+       Subtotal: 11.60
+       Tax (10%): 1.16
+       Total: 12.76
+       -- Base prices : 
+       case "ESP" -> new SimpleProduct("P-ESP", "Espresso", Money.of(2.50));
+       case "LAT" -> new SimpleProduct("P-LAT", "Latte", Money.of(3.20));
+       case "CAP" -> new SimpleProduct("P-CAP", "Cappuccino", Money.of(3.00));
+       */
         boolean mainMenuActive = true;
         while (mainMenuActive){
       
@@ -143,29 +145,6 @@ public final class EntryPoint {
          System.out.println("3. Remove an item from the order");
          System.out.println("4. Complete the order and print the receipt");
          System.out.println("5. Exit");
-        /*  
-        switch (scanner.nextInt()) {
-            case 1:
-                entryPointLogic.addProduct(scanner);
-                break;
-            case 2:
-                entryPointLogic.addItem(scanner);
-                break; 
-            case 3:
-                entryPointLogic.removeItem(scanner);
-                break;
-            case 4:
-                entryPointLogic.completeTransaction(scanner);
-                break;
-            case 5:
-                System.out.println("Exiting program...");
-                scanner.close();
-                mainMenuActive = false;
-                break;
-         }
-         System.out.println("Returning to main menu...");
-        }
-        */
         
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -200,8 +179,8 @@ public final class EntryPoint {
             }
             Product product = catalog.findById(productId).orElseThrow();
             System.out.println("Please enter the quantity");
-            scanner.nextLine(); // clear newline
             int userQuantity = scanner.nextInt();
+            scanner.nextLine();
             if (userQuantity <= 0){ // User input checks can me improved throughout 
                 throw new IllegalArgumentException("Invalid quantity , Quantity must be greater than 0");
             }
@@ -211,7 +190,7 @@ public final class EntryPoint {
             String largeChoice = scanner.nextLine().toLowerCase();
             if (largeChoice.equals("y")){
                 product = new SizeLarge(product);
-            } else if (largeChoice.equals("n")){
+            } else if (!largeChoice.equals("n")){
                 throw new IllegalArgumentException("Invalid choice , please enter y or n");
             } 
     
@@ -228,7 +207,7 @@ public final class EntryPoint {
             String oatChoice = scanner.nextLine().toLowerCase();
             if (oatChoice.equals("y")){
                 product = new OatMilk(product);
-            } else if (oatChoice.equals("n")){
+            } else if (!oatChoice.equals("n")){
                 throw new IllegalArgumentException("Invalid choice , please enter y or n");
             }
     
@@ -241,7 +220,7 @@ public final class EntryPoint {
             order.register(new CustomerNotifier());
             order.addItem(new LineItem(catalog.findById(productId).orElseThrow(), userQuantity));
             System.out.println("Item added successfully , returning to main menu");
-
+            break;
             case 3:
                  String itemId = scanner.nextLine();
                 if (!itemId.startsWith("P-") || itemId.length() != 5){
@@ -262,6 +241,7 @@ public final class EntryPoint {
                 break;
 
             case 4:
+            System.out.println("Your current total is " + order.totalWithTax(10));
             System.out.println("Please select the payment method");
             System.out.println("1. Cash");
             System.out.println("2. Card");
@@ -279,13 +259,16 @@ public final class EntryPoint {
             else if (paymentMethodChoice == 3) {userPaymentMethod = "Wallet";}
 
             if (userPaymentMethod.equals("Cash")){
+                // NOTE : We need to display the total amount of the order and the tax amount so customer can't cheat by not paying the correct amount 
                 System.out.println("Cash selected , please enter the amount of cash to tender");
                 double cashAmount = scanner.nextDouble();
-                double change = cashAmount - order.totalWithTax(10).toBigDecimal().doubleValue(); // TODO: Check this correct ? , Add a test case for this 
+                Money cashAmountToPay = Money.of(cashAmount);
+                Money change = order.totalWithTax(10); // TODO: Check this correct ? , Add a test case for this 
+                Money changedTendered = cashAmountToPay.subtract(change);
                 order.pay(new CashPayment());
+                System.out.println("Change tendered: " + changedTendered);
                 System.out.println("Cash payment successful , returning to main menu");
-                System.out.println("Change tendered: " + change);
-
+                
             }
             else if (userPaymentMethod.equals("Card")){
                 System.out.println("Please enter your card number ");
@@ -302,9 +285,10 @@ public final class EntryPoint {
             else {
                 System.out.println("Invalid payment method , please enter a valid payment method");
             }
-
-            order.markReady();
+            // TODO : Print receipt ?? 
+            
             System.out.println("Order marked as ready , returning to main menu");
+            break ; 
               
             case 5:
                 System.out.println("Exiting program...");
