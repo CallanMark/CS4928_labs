@@ -1,0 +1,149 @@
+@startuml
+title CafePOS (com.cafepos) - Class Diagram
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "com.cafepos.common" {
+    class Money
+}
+
+package "com.cafepos.catalog" {
+    interface Product
+    interface Catalog
+    class SimpleProduct
+    class InMemoryCatalog
+}
+
+package "com.cafepos.decorator" {
+    interface Priced
+    abstract class ProductDecorator
+    class ExtraShot
+    class OatMilk
+    class SizeLarge
+    class Syrup
+}
+
+package "com.cafepos.domain" {
+    class LineItem {
+        - product: Product
+        - quantity: int
+        + product(): Product
+        + quantity(): int
+        + lineTotal(): Money
+    }
+    class Order {
+        - id: long
+        - items: List<LineItem>
+        - observers: List<OrderObserver>
+        + addItem(li: LineItem)
+        + removeItem(li: LineItem)
+        + subtotal(): Money
+        + taxAtPercent(percent: int): Money
+        + totalWithTax(percent: int): Money
+        + pay(strategy: PaymentStrategy)
+        + register(o: OrderObserver)
+        + unregister(o: OrderObserver)
+        + markReady()
+    }
+    class OrderIds {
+        {static} + next(): long
+    }
+}
+
+package "com.cafepos.observer" {
+    interface OrderObserver {
+        + updated(order: Order, eventType: String)
+    }
+    interface OrderPublisher {
+        + register(o: OrderObserver)
+        + unregister(o: OrderObserver)
+        + notifyObservers(order: Order, eventType: String)
+    }
+    class KitchenDisplay
+    class DeliveryDesk
+    class CustomerNotifier
+}
+
+package "com.cafepos.payment" {
+    interface PaymentStrategy {
+        + pay(order: Order)
+    }
+    class CashPayment
+    class CardPayment {
+        - cardNumber: String
+    }
+    class WalletPayment {
+        - walletId: String
+    }
+}
+
+package "com.cafepos.factory" {
+    class ProductFactory
+}
+
+package "com.cafepos.demo" {
+    class EntryPoint
+}
+
+' ===== Inheritance / Implementation =====
+Product <|.. SimpleProduct
+Priced <|.. SimpleProduct
+Catalog <|.. InMemoryCatalog
+
+Product <|.. ProductDecorator
+ProductDecorator <|-- ExtraShot
+ProductDecorator <|-- OatMilk
+ProductDecorator <|-- SizeLarge
+ProductDecorator <|-- Syrup
+Priced <|.. ExtraShot
+Priced <|.. OatMilk
+Priced <|.. SizeLarge
+Priced <|.. Syrup
+
+OrderObserver <|.. KitchenDisplay
+OrderObserver <|.. DeliveryDesk
+OrderObserver <|.. CustomerNotifier
+
+PaymentStrategy <|.. CashPayment
+PaymentStrategy <|.. CardPayment
+PaymentStrategy <|.. WalletPayment
+
+' ===== Associations / Dependencies =====
+Order "1" *-- "0..*" LineItem
+LineItem --> Product : product
+ProductDecorator o-- Product : base
+
+Order ..> PaymentStrategy : uses
+Order --> "0..*" OrderObserver : observers
+
+Product ..> Money
+SimpleProduct ..> Money
+ExtraShot ..> Money
+OatMilk ..> Money
+SizeLarge ..> Money
+Syrup ..> Money
+LineItem ..> Money
+Order ..> Money
+
+InMemoryCatalog --> Product
+ProductFactory ..> Product
+ProductFactory ..> SimpleProduct
+ProductFactory ..> ExtraShot
+ProductFactory ..> OatMilk
+ProductFactory ..> Syrup
+ProductFactory ..> SizeLarge
+
+EntryPoint ..> Catalog
+EntryPoint ..> InMemoryCatalog
+EntryPoint ..> Order
+EntryPoint ..> LineItem
+EntryPoint ..> Product
+EntryPoint ..> Money
+EntryPoint ..> PaymentStrategy
+EntryPoint ..> OrderObserver
+
+@enduml
+
+
+
