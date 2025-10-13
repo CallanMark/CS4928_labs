@@ -21,6 +21,10 @@ public void addItem(LineItem li) {
     }
  }
 
+public void removeItem(LineItem li) {
+    items.remove(li);
+    notifyObservers("itemRemoved");
+}
 
 public Money taxAtPercent(int percent) { 
     BigDecimal percentDecimal = BigDecimal.valueOf(percent).movePointLeft(2);
@@ -91,7 +95,7 @@ public void register(OrderObserver o) {
     public void markReady() {
         notifyObservers("ready");
     }
-   // Added this method to get the item name from the order
+   // Added this method to get the item name from the order , itemId is the index of the item in the order
     public String getItemName(int itemId) {
         return items.get(itemId).product().name();
     }

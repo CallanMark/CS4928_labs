@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: cafepos.FactoryAndDecoratorTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.015 s <<< FAILURE! -- in cafepos.FactoryAndDecoratorTest
+cafepos.FactoryAndDecoratorTest.decorator_stacks -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.ClassCastException: class com.cafepos.decorator.SizeLarge cannot be cast to class com.cafepos.decorator.Priced (com.cafepos.decorator.SizeLarge and com.cafepos.decorator.Priced are in unnamed module of loader 'app')
+	at cafepos.FactoryAndDecoratorTest.decorator_stacks(FactoryAndDecoratorTest.java:41)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
