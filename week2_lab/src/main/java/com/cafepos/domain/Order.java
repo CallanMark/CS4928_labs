@@ -21,6 +21,10 @@ public void addItem(LineItem li) {
     }
  }
 
+public void removeItem(LineItem li) {
+    items.remove(li);
+    notifyObservers("itemRemoved");
+}
 
 public Money taxAtPercent(int percent) { 
     BigDecimal percentDecimal = BigDecimal.valueOf(percent).movePointLeft(2);

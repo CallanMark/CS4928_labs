@@ -16,6 +16,7 @@ import com.cafepos.decorator.*;
 import com.cafepos.payment.CardPayment;
 import com.cafepos.payment.WalletPayment;
 import com.cafepos.payment.CashPayment;
+import com.cafepos.demo.entryPointTesting;
 import java.util.Scanner;
 
 public final class EntryPoint { 
@@ -132,103 +133,185 @@ public final class EntryPoint {
         Tax (10%): 1.16
         Total: 12.76
          */
+
         boolean mainMenuActive = true;
         while (mainMenuActive){
+      
          System.out.println("[Main Menu] Welcome top the CS4928 Cafe , Please select which operation you wish to perform");
          System.out.println("1. Create/Add a new product to the catalog");
          System.out.println("2. Add a new item to the order");
          System.out.println("3. Remove an item from the order");
          System.out.println("4. Complete the order and print the receipt");
          System.out.println("5. Exit");
-         int choice = scanner.nextInt();
-         switch (choice) {
+        /*  
+        switch (scanner.nextInt()) {
             case 1:
-                System.out.println("Please enter the product name ");
-                String name = scanner.nextLine();
-                System.out.println("Please enter the product price");
-                double price = scanner.nextDouble();
-                String id = "P-"+name.substring(0, 2).toUpperCase();
-                catalog.add(new SimpleProduct(id, name, Money.of(price)));
-                System.out.println("Product added successfully , returning to main menu");
+                entryPointLogic.addProduct(scanner);
                 break;
             case 2:
-                System.out.println("Please enter the product name e.g P-LAT, P-ESP, P-CAP");
-                String productId = scanner.nextLine();
-                if (!productId.startsWith("P-") || productId.length() != 5){
-                    System.out.println("Invalid product id , please enter a valid product id e.g P-ESP");
-                    break;
-                }
-                System.out.println("Please enter the quantity");
-                int quantity = scanner.nextInt();
-                if (quantity <= 0){
-                    System.out.println("Invalid quantity , Quantity must be greater than 0");
-                    break;
-                }
-                else {
-                    System.out.println("Product id is valid , adding item to order");
-                    order.addItem(new LineItem(catalog.findById(productId).orElseThrow(), quantity));
-                    System.out.println("Item added successfully , returning to main menu");
-                    break;
-                }
+                entryPointLogic.addItem(scanner);
+                break; 
             case 3:
-                System.out.println("Please enter the item id");
-                String itemId = scanner.nextLine();
+                entryPointLogic.removeItem(scanner);
+                break;
+            case 4:
+                entryPointLogic.completeTransaction(scanner);
+                break;
+            case 5:
+                System.out.println("Exiting program...");
+                scanner.close();
+                mainMenuActive = false;
+                break;
+         }
+         System.out.println("Returning to main menu...");
+        }
+        */
+        
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // clear newline
+         switch (choice) {
+            case 1:
+            System.out.println("Please enter the product name e.g Latte , Espresso , Cappuccino "); 
+            String name = scanner.nextLine();
+            if (name.length() > 10){   
+                throw new IllegalArgumentException("Product name is too long , please enter a shorter name");
+            }
+            System.out.println("Please enter the product price ");
+            double price = scanner.nextDouble(); 
+            if (price <= 0){
+                throw new IllegalArgumentException("Invalid price , price must be greater than 0");
+                
+            }
+            String id = "P-"+name.substring(0, 3).toUpperCase();
+            catalog.add(new SimpleProduct(id, name, Money.of(price)));
+            System.out.println("Product added successfully to catalog with id :" + id + " , returning to main menu");   
+            break;
+            case 2:   
+            // User flow 
+            System.out.println("Please enter the product ID e.g P-LAT, P-ESP, P-CAP");
+            String productId = scanner.nextLine();
+            if (!productId.startsWith("P-") || productId.length() != 5){
+                throw new IllegalArgumentException("Invalid product id , please enter a valid product id e.g P-ESP");
+            }
+            // NOTE : This is where we check if the product exists in the catalog
+            if (!catalog.findById(productId).isPresent()){
+                throw new IllegalArgumentException("Product not found in catalog , please enter a valid product id");
+            }
+            Product product = catalog.findById(productId).orElseThrow();
+            System.out.println("Please enter the quantity");
+            scanner.nextLine(); // clear newline
+            int userQuantity = scanner.nextInt();
+            if (userQuantity <= 0){ // User input checks can me improved throughout 
+                throw new IllegalArgumentException("Invalid quantity , Quantity must be greater than 0");
+            }
+            System.out.println("Product id is valid , adding item to order");
+    
+            System.out.println("Would you like a large " + product.name() + "? (y/n)");
+            String largeChoice = scanner.nextLine().toLowerCase();
+            if (largeChoice.equals("y")){
+                product = new SizeLarge(product);
+            } else if (largeChoice.equals("n")){
+                throw new IllegalArgumentException("Invalid choice , please enter y or n");
+            } 
+    
+            System.out.println("Would you like an extra shot of espresso in " + product.name() + "? (y/n)");
+            String shotChoice = scanner.nextLine().toLowerCase();
+            if (shotChoice.equals("y")){
+                product = new ExtraShot(product);
+            } else if (!shotChoice.equals("n")){
+                throw new IllegalArgumentException("Invalid choice , please enter y or n");        } else {
+            }
+    
+            
+            System.out.println("Would you like an oat milk in " + product.name() + "? (y/n)");
+            String oatChoice = scanner.nextLine().toLowerCase();
+            if (oatChoice.equals("y")){
+                product = new OatMilk(product);
+            } else if (oatChoice.equals("n")){
+                throw new IllegalArgumentException("Invalid choice , please enter y or n");
+            }
+    
+            catalog.add(new SimpleProduct(productId, productId, Money.of(product.price().toBigDecimal())));
+            
+            order.addItem(new LineItem(product, userQuantity));
+            // New intiations , only iniating this when it is needed , Don't know if this is the most efficent way 
+            order.register(new KitchenDisplay());
+            order.register(new DeliveryDesk());
+            order.register(new CustomerNotifier());
+            order.addItem(new LineItem(catalog.findById(productId).orElseThrow(), userQuantity));
+            System.out.println("Item added successfully , returning to main menu");
+
+            case 3:
+                 String itemId = scanner.nextLine();
                 if (!itemId.startsWith("P-") || itemId.length() != 5){
-                    System.out.println("Invalid item id , please enter a valid item id e.g P-ESP");
-                    break;
+                    System.out.println("Invalid item id , please enter a valid item id e.g P-ESP");            
                 }
                 else if (!catalog.findById(itemId).isPresent() ){ // || TODO: Implement some sort of check for  !order.items().contains(itemId)
                     System.out.println("Item not found in order , please enter a valid item id");
                     System.out.println("Current Order items: " + order.items());
-                    break;
                 }
                 else {
                     System.out.println("Item found in order , removing item");
+                    Product itemForRemoval = catalog.findById(itemId).orElseThrow();
+                    LineItem lineItemForRemoval = new LineItem(itemForRemoval, 1);
                     //order.removeItem(itemId); //TODO: Implement this method
-                    System.out.println("Item removed successfully , returning to main menu");
-                    
+                    order.removeItem(lineItemForRemoval); // Takes param of type product 
+                    System.out.println("Item removed successfully , returning to main menu");    
                 }
-        
                 break;
+
             case 4:
-                System.out.println("Please select the payment method");
-                System.out.println("1. Cash");
-                System.out.println("2. Card");
-                System.out.println("3. Wallet");
-                int paymentMethodChoice = scanner.nextInt();
-                if (paymentMethodChoice == 1){
-                    System.out.println("Cash selected , please enter the amount of cash to tender");
-                    double cashAmount = scanner.nextDouble();
-                    double change = cashAmount - order.totalWithTax(10).toBigDecimal().doubleValue(); // TODO: Check this correct ? 
-                    order.pay(new CashPayment());
-                    System.out.println("Cash payment successful , returning to main menu");
-                    System.out.println("Change tendered: " + change);
-                    break;
-                }
-                else if (paymentMethodChoice == 2){
-                    System.out.println("Please enter your card number ");
-                    String cardNumber = scanner.nextLine();
-                    order.pay(new CardPayment(cardNumber));
-                    System.out.println("Card payment successful , returning to main menu");
-                    break;
-                }
-                else if (paymentMethodChoice == 3){
-                    System.out.println("Please enter your wallet id");
-                    String walletId = scanner.nextLine();
-                    order.pay(new WalletPayment(walletId));
-                    System.out.println("Wallet payment successful , returning to main menu");
-                    break;
-                }
-                else {
-                    System.out.println("Invalid payment method , please enter a valid payment method");
-                    break;
-                }
+            System.out.println("Please select the payment method");
+            System.out.println("1. Cash");
+            System.out.println("2. Card");
+            System.out.println("3. Wallet");
+         
+
+            int paymentMethodChoice = scanner.nextInt();
+            if (paymentMethodChoice <= 0 || paymentMethodChoice > 3){
+                System.out.println("Invalid payment method , please enter a valid payment method");
+            }
+
+            String userPaymentMethod = "" ; // Initalise userPaymentMethod to an empty string , doing this make the code more readable imo 
+            if (paymentMethodChoice == 1) {userPaymentMethod = "Cash";}
+            else if (paymentMethodChoice == 2) {userPaymentMethod = "Card";}
+            else if (paymentMethodChoice == 3) {userPaymentMethod = "Wallet";}
+
+            if (userPaymentMethod.equals("Cash")){
+                System.out.println("Cash selected , please enter the amount of cash to tender");
+                double cashAmount = scanner.nextDouble();
+                double change = cashAmount - order.totalWithTax(10).toBigDecimal().doubleValue(); // TODO: Check this correct ? , Add a test case for this 
+                order.pay(new CashPayment());
+                System.out.println("Cash payment successful , returning to main menu");
+                System.out.println("Change tendered: " + change);
+
+            }
+            else if (userPaymentMethod.equals("Card")){
+                System.out.println("Please enter your card number ");
+                String cardNumber = scanner.nextLine();
+                order.pay(new CardPayment(cardNumber));
+                System.out.println("Card payment successful , returning to main menu");
+            }
+            else if (userPaymentMethod.equals("Wallet")){
+                System.out.println("Please enter your wallet id");
+                String walletId = scanner.nextLine();
+                order.pay(new WalletPayment(walletId));
+                System.out.println("Wallet payment successful , returning to main menu");
+            }
+            else {
+                System.out.println("Invalid payment method , please enter a valid payment method");
+            }
+
+            order.markReady();
+            System.out.println("Order marked as ready , returning to main menu");
               
             case 5:
                 System.out.println("Exiting program...");
                 mainMenuActive = false;
+                scanner.close();
                 break;
          }
-        }
+        }  
     }
 }
