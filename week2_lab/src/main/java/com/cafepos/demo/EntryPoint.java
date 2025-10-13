@@ -12,7 +12,11 @@ import com.cafepos.observer.KitchenDisplay;
 import com.cafepos.observer.CustomerNotifier;
 import com.cafepos.factory.ProductFactory;
 import com.cafepos.catalog.Product;
-import com.cafepos.decorator.*;;
+import com.cafepos.decorator.*;
+import com.cafepos.payment.CardPayment;
+import com.cafepos.payment.WalletPayment;
+import com.cafepos.payment.CashPayment;
+import java.util.Scanner;
 
 public final class EntryPoint { 
     public static void main(String[] args) {
@@ -20,6 +24,7 @@ public final class EntryPoint {
         Catalog catalog = new InMemoryCatalog(); 
         Order order = new Order(OrderIds.next()); 
         ProductFactory factory = new ProductFactory();
+        Scanner scanner = new Scanner(System.in);
 
         // ----------------------- Week 2 Demo 
         /* 
@@ -84,7 +89,7 @@ public final class EntryPoint {
          * Extra Shot = 0.80 , Oat Milk = 0.50 , Syrup = 0.40 , Large = 0.70
          * Espresso = 2.50 , Large Espresso = 3.20
          */
-
+         /*
         System.out.println("*************************** Week 5 Demo ***************************");
         Product p1 = factory.create("ESP+SHOT+OAT"); // Espresso+ Extra Shot + Oat
         Product p2 = factory.create("LAT+L"); // Large Latte
@@ -127,5 +132,103 @@ public final class EntryPoint {
         Tax (10%): 1.16
         Total: 12.76
          */
+        boolean mainMenuActive = true;
+        while (mainMenuActive){
+         System.out.println("[Main Menu] Welcome top the CS4928 Cafe , Please select which operation you wish to perform");
+         System.out.println("1. Create/Add a new product to the catalog");
+         System.out.println("2. Add a new item to the order");
+         System.out.println("3. Remove an item from the order");
+         System.out.println("4. Complete the order and print the receipt");
+         System.out.println("5. Exit");
+         int choice = scanner.nextInt();
+         switch (choice) {
+            case 1:
+                System.out.println("Please enter the product name ");
+                String name = scanner.nextLine();
+                System.out.println("Please enter the product price");
+                double price = scanner.nextDouble();
+                String id = "P-"+name.substring(0, 2).toUpperCase();
+                catalog.add(new SimpleProduct(id, name, Money.of(price)));
+                System.out.println("Product added successfully , returning to main menu");
+                break;
+            case 2:
+                System.out.println("Please enter the product name e.g P-LAT, P-ESP, P-CAP");
+                String productId = scanner.nextLine();
+                if (!productId.startsWith("P-") || productId.length() != 5){
+                    System.out.println("Invalid product id , please enter a valid product id e.g P-ESP");
+                    break;
+                }
+                System.out.println("Please enter the quantity");
+                int quantity = scanner.nextInt();
+                if (quantity <= 0){
+                    System.out.println("Invalid quantity , Quantity must be greater than 0");
+                    break;
+                }
+                else {
+                    System.out.println("Product id is valid , adding item to order");
+                    order.addItem(new LineItem(catalog.findById(productId).orElseThrow(), quantity));
+                    System.out.println("Item added successfully , returning to main menu");
+                    break;
+                }
+            case 3:
+                System.out.println("Please enter the item id");
+                String itemId = scanner.nextLine();
+                if (!itemId.startsWith("P-") || itemId.length() != 5){
+                    System.out.println("Invalid item id , please enter a valid item id e.g P-ESP");
+                    break;
+                }
+                else if (!catalog.findById(itemId).isPresent() ){ // || TODO: Implement some sort of check for  !order.items().contains(itemId)
+                    System.out.println("Item not found in order , please enter a valid item id");
+                    System.out.println("Current Order items: " + order.items());
+                    break;
+                }
+                else {
+                    System.out.println("Item found in order , removing item");
+                    //order.removeItem(itemId); //TODO: Implement this method
+                    System.out.println("Item removed successfully , returning to main menu");
+                    
+                }
+        
+                break;
+            case 4:
+                System.out.println("Please select the payment method");
+                System.out.println("1. Cash");
+                System.out.println("2. Card");
+                System.out.println("3. Wallet");
+                int paymentMethodChoice = scanner.nextInt();
+                if (paymentMethodChoice == 1){
+                    System.out.println("Cash selected , please enter the amount of cash to tender");
+                    double cashAmount = scanner.nextDouble();
+                    double change = cashAmount - order.totalWithTax(10).toBigDecimal().doubleValue(); // TODO: Check this correct ? 
+                    order.pay(new CashPayment());
+                    System.out.println("Cash payment successful , returning to main menu");
+                    System.out.println("Change tendered: " + change);
+                    break;
+                }
+                else if (paymentMethodChoice == 2){
+                    System.out.println("Please enter your card number ");
+                    String cardNumber = scanner.nextLine();
+                    order.pay(new CardPayment(cardNumber));
+                    System.out.println("Card payment successful , returning to main menu");
+                    break;
+                }
+                else if (paymentMethodChoice == 3){
+                    System.out.println("Please enter your wallet id");
+                    String walletId = scanner.nextLine();
+                    order.pay(new WalletPayment(walletId));
+                    System.out.println("Wallet payment successful , returning to main menu");
+                    break;
+                }
+                else {
+                    System.out.println("Invalid payment method , please enter a valid payment method");
+                    break;
+                }
+              
+            case 5:
+                System.out.println("Exiting program...");
+                mainMenuActive = false;
+                break;
+         }
+        }
     }
 }
