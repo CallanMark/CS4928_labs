@@ -2,7 +2,7 @@ package com.cafepos.decorator;
 import com.cafepos.catalog.Product;
 import com.cafepos.common.Money;
 
-public final class OatMilk extends ProductDecorator {
+public final class OatMilk extends ProductDecorator implements Priced {
     private static final Money SURCHARGE = Money.of(0.50);
     public OatMilk(Product base) { 
         super(base);

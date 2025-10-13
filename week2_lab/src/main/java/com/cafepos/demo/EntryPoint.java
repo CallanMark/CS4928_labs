@@ -10,13 +10,10 @@ import com.cafepos.payment.CashPayment;
 import com.cafepos.observer.DeliveryDesk;
 import com.cafepos.observer.KitchenDisplay;
 import com.cafepos.observer.CustomerNotifier;
-import com.cafepos.factory.ProductFactory;
 import com.cafepos.catalog.Product;
 import com.cafepos.decorator.*;
 import com.cafepos.payment.CardPayment;
 import com.cafepos.payment.WalletPayment;
-import com.cafepos.payment.CashPayment;
-import com.cafepos.demo.entryPointTesting;
 import java.util.Scanner;
 
 public final class EntryPoint { 
@@ -24,104 +21,8 @@ public final class EntryPoint {
         // Create Objects 
         Catalog catalog = new InMemoryCatalog(); 
         Order order = new Order(OrderIds.next()); 
-        ProductFactory factory = new ProductFactory();
         Scanner scanner = new Scanner(System.in);
 
-        // ----------------------- Week 2 Demo 
-        /* 
-        System.out.println("*************************** Week 2 Demo ***************************");
-        catalog.add(new SimpleProduct("P-ESP", "Espresso",Money.of(2.50))); // Add espresso ($2.50)
-        catalog.add(new SimpleProduct("P-CCK", "Chocolate Cookie", Money.of(3.50))); // Add chocolate cookie ($3.50)
-
-        order.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 2)); // Add 2 espresso 
-        order.addItem(new LineItem(catalog.findById("P-CCK").orElseThrow(), 1));
-
-        int taxPct = 10; 
-        // Print order details
-        System.out.println("Order #" + order.id());  
-        System.out.println("Items: " + order.items().size()); 
-        System.out.println("Subtotal: " + order.subtotal()); 
-        System.out.println("Tax (" + taxPct + "%): " +
-        order.taxAtPercent(taxPct)); 
-        System.out.println("Total: " +
-        order.totalWithTax(taxPct)); 
-        */
-
-        // -----------------------  Week 3 Demo
-        /*
-        System.out.println("*************************** Week 3 Demo ***************************");
-        catalog.add(new SimpleProduct("P-ESP", "Espresso",
-                Money.of(2.50)));
-        catalog.add(new SimpleProduct("P-CCK", "Chocolate Cookie", Money.of(3.50)));
-        // Cash payment
-                Order order1 = new Order(OrderIds.next());
-        order1.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 2));
-                order1.addItem(new LineItem(catalog.findById("P-CCK").orElseThrow(), 1));
-                        System.out.println("Order #" + order1.id() + " Total: " +
-                                order1.totalWithTax(10));
-        order1.pay(new CashPayment());
-        // Card payment
-        Order order2 = new Order(OrderIds.next());
-        order2.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 2));
-                order2.addItem(new LineItem(catalog.findById("P-CCK").orElseThrow(), 1));
-                        System.out.println("Order #" + order2.id() + " Total: " +
-                                order2.totalWithTax(10));
-        order2.pay(new CardPayment("1234567812341234"));
-        */ 
-
-        // ----------------------- Week 4 Demo 
-
-        /* 
-        System.out.println("*************************** Week 4 Demo ***************************");
-        catalog.add(new SimpleProduct("P-ESP", "Espresso",
-                Money.of(2.50)));
-
-        order.register(new KitchenDisplay());
-        order.register(new DeliveryDesk());
-        order.register(new CustomerNotifier());
-        order.addItem(new LineItem(catalog.findById("P-ESP").orElseThrow(), 1));
-        order.pay(new CashPayment());
-        order.markReady();
-        */
-
-        // ----------------------- Week 5 Demo
-        /*
-         * Latte = 2.50 , Large Latte = 3.20
-         * Extra Shot = 0.80 , Oat Milk = 0.50 , Syrup = 0.40 , Large = 0.70
-         * Espresso = 2.50 , Large Espresso = 3.20
-         */
-         /*
-        System.out.println("*************************** Week 5 Demo ***************************");
-        Product p1 = factory.create("ESP+SHOT+OAT"); // Espresso+ Extra Shot + Oat
-        Product p2 = factory.create("LAT+L"); // Large Latte
-        order.addItem(new LineItem(p1, 1));
-        order.addItem(new LineItem(p2, 2));
-        System.out.println("Order #" + order.id());
-        for (LineItem li : order.items()) {
-        System.out.println(" - " + li.product().name() + " x"
-        + li.quantity() + " = " + li.lineTotal());
-        }
-        System.out.println("Subtotal: " + order.subtotal());
-        System.out.println("Tax (10%): " +
-        order.taxAtPercent(10));
-        System.out.println("Total: " + order.totalWithTax(10));
-    
-        System.out.println("*************************** Testing ***************************");
-        // Example usage
-        Product espresso = new SimpleProduct("P-ESP", "Espresso", Money.of(2.50));
-        Product decorated = new SizeLarge(new OatMilk(new ExtraShot(espresso)));
-        // decorated.name() => "Espresso + Extra Shot + Oat Milk (Large)" NOTE : Working 
-        // decorated.price() => 2.50 + 0.80 + 0.50 + 0.70 = 4.5
-        System.out.println("Decorated name: " + decorated.name());
-        System.out.println("Decorated price: " + decorated.price());
-        
-        System.out.println("*************************** Testing 2 ***************************");
-        Product espresso2 = new SimpleProduct("P-ESP", "Espresso",Money.of(2.50));
-        Product decorated2 = new SizeLarge(new OatMilk(new ExtraShot(espresso2)));
-        System.out.println("Espresso + Extra Shot + Oat Milk (Large)"+  decorated2.name());
-        System.out.println(decorated2.price());
-        */
-        
        // Currently we add the large surcharrge (2.50 + 0.70 = 3.20) , but we need to add the large surcharrge to the extra shot and oat milk , 
 
        /* Desired final output :  
@@ -135,11 +36,18 @@ public final class EntryPoint {
        case "ESP" -> new SimpleProduct("P-ESP", "Espresso", Money.of(2.50));
        case "LAT" -> new SimpleProduct("P-LAT", "Latte", Money.of(3.20));
        case "CAP" -> new SimpleProduct("P-CAP", "Cappuccino", Money.of(3.00));
+       Current output :
+       - Latte (Large) x2 = 6.40
+       - P-LAT x2 = 7.80
+       - Espresso + Extra Shot + Oat Milk x1 = 2.50
+       - P-ESP x1 = 3.80
+       Current problems : 
+       P-LAT and P-ESP have the correct total , but the names are incorrect  
        */
         boolean mainMenuActive = true;
         while (mainMenuActive){
       
-         System.out.println("[Main Menu] Welcome top the CS4928 Cafe , Please select which operation you wish to perform");
+         System.out.println("[Main Menu] Welcome to the CS4928 Cafe , Please select which operation you wish to perform");
          System.out.println("1. Create/Add a new product to the catalog");
          System.out.println("2. Add a new item to the order");
          System.out.println("3. Remove an item from the order");
@@ -149,6 +57,7 @@ public final class EntryPoint {
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // clear newline
+         // Need a way to navigate back to the main menu from any case
          switch (choice) {
             case 1:
             System.out.println("Please enter the product name e.g Latte , Espresso , Cappuccino "); 
@@ -263,8 +172,8 @@ public final class EntryPoint {
                 System.out.println("Cash selected , please enter the amount of cash to tender");
                 double cashAmount = scanner.nextDouble();
                 Money cashAmountToPay = Money.of(cashAmount);
-                Money change = order.totalWithTax(10); // TODO: Check this correct ? , Add a test case for this 
-                Money changedTendered = cashAmountToPay.subtract(change);
+                Money totalAmountToPay = order.totalWithTax(10); // TODO: Check this correct ? , Add a test case for this 
+                Money changedTendered = cashAmountToPay.subtract(totalAmountToPay);
                 order.pay(new CashPayment());
                 System.out.println("Change tendered: " + changedTendered);
                 System.out.println("Cash payment successful , returning to main menu");
@@ -287,7 +196,16 @@ public final class EntryPoint {
             }
             // TODO : Print receipt ?? 
             
-            System.out.println("Order marked as ready , returning to main menu");
+            System.out.println("Order marked as ready , printing receipt...");
+            System.out.println("*************************** Receipt ***************************");
+            System.out.println("Order #" + order.id());
+            for (LineItem li : order.items()) {
+                System.out.println(" - " + li.product().name() + " x" + li.quantity() + " = " + li.lineTotal());
+            }
+            System.out.println("Subtotal: " + order.subtotal());
+            System.out.println("Tax (10%): " + order.taxAtPercent(10));
+            System.out.println("Total: " + order.totalWithTax(10));
+            order.markReady();
             break ; 
               
             case 5:

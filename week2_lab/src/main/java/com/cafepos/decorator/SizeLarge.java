@@ -4,7 +4,7 @@ import com.cafepos.common.Money;
 
 
 
-public final class SizeLarge extends ProductDecorator {
+public final class SizeLarge extends ProductDecorator implements Priced {
     private static final Money SURCHARGE = Money.of(0.70);
     public SizeLarge(Product base) { 
         super(base); 
