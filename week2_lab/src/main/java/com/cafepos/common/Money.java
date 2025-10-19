@@ -59,10 +59,6 @@ BigDecimal newAmount = this.amount.multiply(BigDecimal.valueOf(factor));
 return new Money(newAmount);
 }
 
-public BigDecimal toBigDecimal() {
-return amount;
-}
-
 @Override
 public int compareTo(Money o) {
 Objects.requireNonNull(o, "o");
@@ -86,4 +82,8 @@ return amount.stripTrailingZeros().hashCode();
 public String toString() {
 return amount.toPlainString();
 }
+
+public BigDecimal asBigDecimal() {
+        return amount;
+    }
 }
