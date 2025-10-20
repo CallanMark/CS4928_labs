@@ -1,0 +1,38 @@
+package com.cafepos.smells;
+import com.cafepos.common.Money;
+import com.cafepos.factory.ProductFactory;
+import com.cafepos.catalog.Product;
+import com.cafepos.pricing.PricingService;
+import com.cafepos.pricing.ReceiptPrinter;
+import com.cafepos.domain.Order;
+import com.cafepos.domain.OrderIds;
+import com.cafepos.domain.LineItem;
+import com.cafepos.payment.CashPayment;
+import com.cafepos.payment.CardPayment;
+import com.cafepos.payment.WalletPayment;
+
+
+public class CheckoutService {
+    private final ProductFactory factory;
+    private final PricingService pricing;
+    private final ReceiptPrinter printer;
+    private final int taxPercent;
+    public CheckoutService(ProductFactory factory, PricingService pricing, ReceiptPrinter printer, int taxPercent) {
+    this.factory = factory;
+    this.pricing = pricing;
+    this.printer = printer;
+    this.taxPercent = taxPercent;
+    }
+    
+    public String checkout(String recipe, int qty)  {
+    Product product = factory.create(recipe);
+    if (qty <= 0) qty = 1;
+    Money unit = (product instanceof com.cafepos.decorator.Priced p)
+    ? p.price() : product.basePrice();
+    Money subtotal = unit.multiply(qty);
+    var result = pricing.price(subtotal);
+    //Order order = new Order(OrderIds.next());
+    //order.addItem(new LineItem(product, qty));  
+    return printer.format(recipe, qty, result, taxPercent);
+    }
+}

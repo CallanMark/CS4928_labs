@@ -61,7 +61,7 @@ public class OrderManagerGod {
         receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
                 receipt.append("Subtotal: ").append(subtotal).append("\n");
         if (discount.asBigDecimal().signum() > 0) {
-            receipt.append("Discount: -").append(discount).append("\n");
+            receipt.append("Discount: - ").append(discount).append("\n");
         }
         receipt.append("Tax (").append(TAX_PERCENT).append("%): ").append(tax).append("\n");
                 receipt.append("Total: ").append(total);
@@ -69,6 +69,7 @@ public class OrderManagerGod {
         if (printReceipt) { //primitive obsession
             System.out.println(out); //god class/long method
         }
+
         return out;
     }
 }
