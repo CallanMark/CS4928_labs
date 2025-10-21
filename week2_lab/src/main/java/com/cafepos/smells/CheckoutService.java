@@ -4,12 +4,6 @@ import com.cafepos.factory.ProductFactory;
 import com.cafepos.catalog.Product;
 import com.cafepos.pricing.PricingService;
 import com.cafepos.pricing.ReceiptPrinter;
-import com.cafepos.domain.Order;
-import com.cafepos.domain.OrderIds;
-import com.cafepos.domain.LineItem;
-import com.cafepos.payment.CashPayment;
-import com.cafepos.payment.CardPayment;
-import com.cafepos.payment.WalletPayment;
 
 
 public class CheckoutService {

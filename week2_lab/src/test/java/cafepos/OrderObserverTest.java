@@ -34,7 +34,6 @@ public class OrderObserverTest {
 
     @Test void multiple_observers_receive_ready_event() {
         // Arrange
-        var product = new SimpleProduct("B", "Espresso", Money.of(3));
         var order = new Order(2);
         List<String> events1 = new ArrayList<>();
         List<String> events2 = new ArrayList<>();
