@@ -10,7 +10,7 @@
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/decorator/SizeLarge.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/decorator/Syrup.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/demo/EntryPoint.java
-/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/demo/entryPointTesting.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/demo/Week6Demo.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/domain/LineItem.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/domain/Order.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/domain/OrderIds.java
@@ -24,3 +24,13 @@
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/payment/CashPayment.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/payment/PaymentStrategy.java
 /Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/payment/WalletPayment.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/DiscountPolicy.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/FixedCouponDiscount.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/FixedRateTaxPolicy.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/LoyaltyPercentDiscount.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/NoDiscount.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/PricingService.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/ReceiptPrinter.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/pricing/TaxPolicy.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/smells/CheckoutService.java
+/Users/mark/Documents/college/2526SEM1/cs4928/cs4928_labs_new/CS4928_labs/week2_lab/src/main/java/com/cafepos/smells/OrderManagerGod.java

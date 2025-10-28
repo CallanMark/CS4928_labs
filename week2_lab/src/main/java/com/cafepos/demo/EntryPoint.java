@@ -14,6 +14,12 @@ import com.cafepos.catalog.Product;
 import com.cafepos.decorator.*;
 import com.cafepos.payment.CardPayment;
 import com.cafepos.payment.WalletPayment;
+import com.cafepos.pricing.LoyaltyPercentDiscount;
+import com.cafepos.pricing.DiscountPolicy;
+import com.cafepos.pricing.PricingService;
+import com.cafepos.pricing.FixedRateTaxPolicy;
+import com.cafepos.pricing.NoDiscount;
+
 import java.util.Scanner;
 
 public final class EntryPoint { 
@@ -60,7 +66,7 @@ public final class EntryPoint {
             case 2:   
             // User flow 
             System.out.println("Please enter the product ID e.g P-LAT, P-ESP, P-CAP");
-            String productId = scanner.nextLine();
+            String productId = scanner.nextLine().toUpperCase();
             if (!productId.startsWith("P-") || productId.length() != 5){
                 throw new IllegalArgumentException("Invalid product id , please enter a valid product id e.g P-ESP");
             }
@@ -90,8 +96,8 @@ public final class EntryPoint {
             if (shotChoice.equals("y")){
                 product = new ExtraShot(product);
             } else if (!shotChoice.equals("n")){
-                throw new IllegalArgumentException("Invalid choice , please enter y or n");        } else {
-            }
+                throw new IllegalArgumentException("Invalid choice , please enter y or n");     
+               } 
     
             
             System.out.println("Would you like an oat milk in " + product.name() + "? (y/n)");
@@ -102,7 +108,8 @@ public final class EntryPoint {
                 throw new IllegalArgumentException("Invalid choice , please enter y or n");
             }
     
-            order.addItem(new LineItem(product, userQuantity));            System.out.println("Item added successfully , returning to main menu");
+            order.addItem(new LineItem(product, userQuantity));            
+            System.out.println("Item added successfully , returning to main menu");
             break;
             case 3:
                  String itemId = scanner.nextLine();
@@ -117,7 +124,7 @@ public final class EntryPoint {
                     System.out.println("Item found in order , removing item");
                     Product itemForRemoval = catalog.findById(itemId).orElseThrow();
                     LineItem lineItemForRemoval = new LineItem(itemForRemoval, 1);
-                    //order.removeItem(itemId); //TODO: Implement this method
+                    //order.removeItem(itemId); //TODO: Implement this method , Before midterm assesment 
                     order.removeItem(lineItemForRemoval); // Takes param of type product 
                     System.out.println("Item removed successfully , returning to main menu");    
                 }
@@ -146,7 +153,7 @@ public final class EntryPoint {
                 System.out.println("Cash selected , please enter the amount of cash to tender");
                 double cashAmount = scanner.nextDouble();
                 Money cashAmountToPay = Money.of(cashAmount);
-                Money totalAmountToPay = order.totalWithTax(10); // TODO: Check this correct ? , Add a test case for this 
+                Money totalAmountToPay = order.totalWithTax(10); 
                 if (cashAmountToPay.compareTo(totalAmountToPay) < 0){
                     System.out.println("Insufficient cash tendered , please enter a valid amount");
                     break;
@@ -172,6 +179,25 @@ public final class EntryPoint {
             else {
                 System.out.println("Invalid payment method , please enter a valid payment method");
             }
+
+            DiscountPolicy discountPolicy = new NoDiscount();
+            System.out.println("Do you have a discount code? Enter it here if so , otherwise enter n ");
+            String discountCode = scanner.nextLine().toUpperCase();
+            scanner.nextLine(); // clear newline
+            if (discountCode.equals("LOYAL5")) {
+                discountPolicy = new LoyaltyPercentDiscount(5);
+            } else if (discountCode.equals("COUPON1")) {
+                discountPolicy = new LoyaltyPercentDiscount(1);
+            } else if (discountCode.equals("N")) {
+                System.out.println("No discount code applied ... proceeding to checkout");
+            } else if (!discountCode.isEmpty()) {
+                System.out.println("Unknown discount code, ignoring.");
+            }
+
+            PricingService pricingService = new PricingService(discountPolicy, new FixedRateTaxPolicy(10));
+            PricingService.PricingResult pricing = pricingService.price(order.subtotal());
+            
+            
             // TODO : Print receipt ?? 
             
             System.out.println("Order marked as ready , printing receipt...");
@@ -180,9 +206,10 @@ public final class EntryPoint {
             for (LineItem li : order.items()) {
                 System.out.println(" - " + li.product().name() + " x" + li.quantity() + " = " + li.lineTotal());
             }
-            System.out.println("Subtotal: " + order.subtotal());
-            System.out.println("Tax (10%): " + order.taxAtPercent(10));
-            System.out.println("Total: " + order.totalWithTax(10));
+            System.out.println("Subtotal: " + pricing.subtotal());
+            System.out.println("Tax (10%): " + pricing.tax());
+            System.out.println("Discount: " + pricing.discount());
+            System.out.println("Total: " + pricing.total());
             order.markReady();
             break ; 
               
