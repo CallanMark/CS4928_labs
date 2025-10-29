@@ -38,7 +38,7 @@ BigDecimal newAmount = this.amount.add(other.amount);
 return new Money(newAmount);
 }
 
-public Money subtract(Money other) { // NOTE: We were  not asked for this method , added it as we will probably need it at some stage 
+public Money subtract(Money other) { 
 Objects.requireNonNull(other, "other");
 BigDecimal newAmount = this.amount.subtract(other.amount);
 return new Money(newAmount);

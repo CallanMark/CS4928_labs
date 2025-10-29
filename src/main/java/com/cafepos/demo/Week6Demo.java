@@ -21,5 +21,6 @@ System.out.println("Old Receipt:\n" + oldReceipt);
 System.out.println("\nNew Receipt:\n" + newReceipt);
 System.out.println("\nMatch: " + oldReceipt.equals(newReceipt));
 
+
 }
 }

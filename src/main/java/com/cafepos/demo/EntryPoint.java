@@ -124,7 +124,6 @@ public final class EntryPoint {
                     System.out.println("Item found in order , removing item");
                     Product itemForRemoval = catalog.findById(itemId).orElseThrow();
                     LineItem lineItemForRemoval = new LineItem(itemForRemoval, 1);
-                    //order.removeItem(itemId); //TODO: Implement this method , Before midterm assesment 
                     order.removeItem(lineItemForRemoval); // Takes param of type product 
                     System.out.println("Item removed successfully , returning to main menu");    
                 }
@@ -179,27 +178,26 @@ public final class EntryPoint {
             else {
                 System.out.println("Invalid payment method , please enter a valid payment method");
             }
-
+            
+    
             DiscountPolicy discountPolicy = new NoDiscount();
-            System.out.println("Do you have a discount code? Enter it here if so , otherwise enter n ");
-            String discountCode = scanner.nextLine().toUpperCase();
+            System.out.println("Do you have a discount code? Enter it here if so (1 = LOYAL5) , (2 = COUPON1), (3 = n )");
+            int discountCode = scanner.nextInt();
             scanner.nextLine(); // clear newline
-            if (discountCode.equals("LOYAL5")) {
+            if (discountCode == 1 ) {
                 discountPolicy = new LoyaltyPercentDiscount(5);
-            } else if (discountCode.equals("COUPON1")) {
+            } else if (discountCode  == 2 ) {
                 discountPolicy = new LoyaltyPercentDiscount(1);
-            } else if (discountCode.equals("N")) {
+                
+            } else if (discountCode == 3 ) {
                 System.out.println("No discount code applied ... proceeding to checkout");
-            } else if (!discountCode.isEmpty()) {
+            } else {
                 System.out.println("Unknown discount code, ignoring.");
             }
 
             PricingService pricingService = new PricingService(discountPolicy, new FixedRateTaxPolicy(10));
             PricingService.PricingResult pricing = pricingService.price(order.subtotal());
-            
-            
-            // TODO : Print receipt ?? 
-            
+                        
             System.out.println("Order marked as ready , printing receipt...");
             System.out.println("*************************** Receipt ***************************");
             System.out.println("Order #" + order.id());
