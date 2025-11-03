@@ -26,6 +26,13 @@ public void removeItem(LineItem li) {
     notifyObservers("itemRemoved");
 }
 
+public void removeLastItem() {
+    if (!items.isEmpty()) {
+        items.remove(items.size() - 1);
+        notifyObservers("itemRemoved");
+    }
+}
+
 public Money taxAtPercent(int percent) { 
     BigDecimal percentDecimal = BigDecimal.valueOf(percent).movePointLeft(2);
     if (percent < 0 || percent > 100) {
@@ -63,7 +70,7 @@ if (strategy == null) throw new
     // 1) Maintain subscriptions
 private final List<OrderObserver> observers = new ArrayList<>();
 // Array containing event types for comparison
-String[] eventTypes = new String[] { "itemAdded", "paid", "ready" };
+String[] eventTypes = new String[] { "itemAdded", "itemRemoved", "paid", "ready" };
 
 
 public void register(OrderObserver o) {
@@ -85,7 +92,7 @@ public void register(OrderObserver o) {
     // 2) Publish events
     private void notifyObservers(String eventType) {
         if (!Arrays.asList(eventTypes).contains(eventType)) { throw new 
-        IllegalArgumentException("[notifyObservers] Invalid event type: " + eventType + "must be itemAdded, paid, or ready");
+        IllegalArgumentException("[notifyObservers] Invalid event type: " + eventType + " must be itemAdded, itemRemoved, paid, or ready");
         }
         for (OrderObserver o : observers) {
             o.updated(this, eventType);

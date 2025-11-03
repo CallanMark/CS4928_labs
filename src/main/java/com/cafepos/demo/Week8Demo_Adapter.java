@@ -1,5 +1,4 @@
 package com.cafepos.demo;
-import com.cafepos.pricing.ReceiptPrinter;
 import com.cafepos.printing.*;
 import vendor.legacy.LegacyThermalPrinter;
 
