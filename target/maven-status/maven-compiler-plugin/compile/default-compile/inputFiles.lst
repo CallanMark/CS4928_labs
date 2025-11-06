@@ -19,10 +19,16 @@
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/demo/Week6Demo.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/demo/Week8Demo_Adapter.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/demo/Week8Demo_Commands.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/demo/Week9Demo_Menu.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/demo/Week9Demo_State.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/domain/LineItem.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/domain/Order.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/domain/OrderIds.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/factory/ProductFactory.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/menu/CompositeIterator.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/menu/Menu.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/menu/MenuComponent.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/menu/MenuItem.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/observer/CustomerNotifier.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/observer/DeliveryDesk.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/observer/KitchenDisplay.java
@@ -44,4 +50,7 @@
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/printing/Printer.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/smells/CheckoutService.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/smells/OrderManagerGod.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/state/NewState.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/state/OrderFSM.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/state/State.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/vendor/legacy/LegacyThermalPrinter.java
