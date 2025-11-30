@@ -5,8 +5,7 @@
   <artifactId>week2_lab</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>CS4928 Week2 Lab</name>
-  <description>Cafe POS domain kata - week 2</description>
-  <url>https://example.invalid/cs4928/week2</url>
+  <description>Cafe POS </description>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
@@ -51,7 +50,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.5.0</version>
         <configuration>
-          <mainClass>com.cafepos.demo.Week8Demo_Commands</mainClass>
+          <useModulePath>false</useModulePath>
         </configuration>
       </plugin>
     </plugins>

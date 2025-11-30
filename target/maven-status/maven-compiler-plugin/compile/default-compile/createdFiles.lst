@@ -2,6 +2,7 @@ com/cafepos/decorator/SizeLarge.class
 com/cafepos/app/ReceiptFormatter.class
 com/cafepos/command/AddItemCommand.class
 com/cafepos/demo/EntryPoint.class
+com/cafepos/app/events/OrderPaid.class
 com/cafepos/infra/Wiring.class
 com/cafepos/payment/CashPayment.class
 com/cafepos/pricing/FixedCouponDiscount.class
@@ -10,6 +11,7 @@ com/cafepos/demo/Week10Demo_MVC.class
 com/cafepos/catalog/Product.class
 com/cafepos/catalog/InMemoryCatalog.class
 com/cafepos/observer/OrderObserver.class
+com/cafepos/ui/EventWiringDemo.class
 com/cafepos/domain/OrderIds.class
 com/cafepos/pricing/TaxPolicy.class
 com/cafepos/command/PosRemote.class
@@ -22,6 +24,7 @@ com/cafepos/pricing/PricingService$PricingResult.class
 com/cafepos/payment/CardPayment.class
 com/cafepos/app/CheckoutService.class
 com/cafepos/observer/KitchenDisplay.class
+com/cafepos/app/events/EventBus.class
 com/cafepos/pricing/LoyaltyPercentDiscount.class
 com/cafepos/observer/CustomerNotifier.class
 com/cafepos/smells/OrderManagerGod.class
@@ -38,6 +41,7 @@ com/cafepos/catalog/Catalog.class
 com/cafepos/command/PayOrderCommand.class
 com/cafepos/catalog/SimpleProduct.class
 com/cafepos/common/Money.class
+com/cafepos/app/events/OrderEvent.class
 com/cafepos/ui/OrderController.class
 com/cafepos/pricing/PricingService.class
 com/cafepos/domain/OrderRepository.class
@@ -47,3 +51,4 @@ com/cafepos/decorator/Syrup.class
 com/cafepos/pricing/DiscountPolicy.class
 com/cafepos/observer/DeliveryDesk.class
 com/cafepos/command/OrderService.class
+com/cafepos/app/events/OrderCreated.class

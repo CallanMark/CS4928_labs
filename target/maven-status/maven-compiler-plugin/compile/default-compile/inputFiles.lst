@@ -1,5 +1,9 @@
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/CheckoutService.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/ReceiptFormatter.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/events/EventBus.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/events/OrderCreated.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/events/OrderEvent.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/app/events/OrderPaid.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/catalog/Catalog.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/catalog/InMemoryCatalog.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/catalog/Product.java
@@ -53,5 +57,6 @@
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/state/OrderFSM.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/state/State.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/ui/ConsoleView.java
+/Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/ui/EventWiringDemo.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/com/cafepos/ui/OrderController.java
 /Users/mark/Documents/college/2526SEM1/abdul_lab/CS4928_labs/src/main/java/vendor/legacy/LegacyThermalPrinter.java
