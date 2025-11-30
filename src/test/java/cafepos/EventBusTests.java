@@ -1,4 +1,4 @@
-package com.cafepos;
+package cafepos;
 
 import com.cafepos.app.events.EventBus;
 import com.cafepos.app.events.OrderCreated;
