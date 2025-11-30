@@ -1,9 +1,9 @@
 package com.cafepos.app;
-import com.cafepos.common.Money;
-import com.cafepos.factory.ProductFactory;
-import com.cafepos.catalog.Product;
+
+import com.cafepos.domain.Order;
+import com.cafepos.domain.OrderRepository;
 import com.cafepos.pricing.PricingService;
-import com.cafepos.pricing.ReceiptPrinter;
+import com.cafepos.app.ReceiptFormatter;
 
 
 public class CheckoutService {
@@ -21,5 +21,5 @@ public class CheckoutService {
         var pr = pricing.price(order.subtotal());
         return new ReceiptFormatter().format(orderId, order.items(), pr, taxPercent);
     }
-    
+
 }
