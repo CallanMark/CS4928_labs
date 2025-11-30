@@ -1,4 +1,4 @@
-package com.cafepos;
+package cafepos;
 
 import com.cafepos.infra.Wiring;
 import org.junit.jupiter.api.Test;
